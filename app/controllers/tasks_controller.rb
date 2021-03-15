@@ -39,7 +39,7 @@ class TasksController < ApplicationController
       redirect_to @task
     else
       flash.now[:danger] = 'タスクが編集されませんでした'
-      render :new
+      render :edit
     end
   end
 
