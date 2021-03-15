@@ -7,7 +7,7 @@ class TasksController < ApplicationController
   end
   
   def show
-    @task = current_user.tasks.find_by(id: params[:id])
+    @user = current_user.tasks.find_by(id: params[:id])
   end
   
   def new
@@ -16,6 +16,7 @@ class TasksController < ApplicationController
 
   def create
     @task = current_user.tasks.build(task_params)
+    
     if @task.save
       flash[:success] = 'タスクを投稿しました。'
       redirect_to root_url
@@ -32,6 +33,14 @@ class TasksController < ApplicationController
   
   def update
     @task = current_user.tasks.find_by(id: params[:id])
+    
+    if @task.update(task_params)
+      flash[:success] = 'タスクが編集されました'
+      redirect_to @task
+    else
+      flash.now[:danger] = 'タスクが編集されませんでした'
+      render :new
+    end
   end
 
   def destroy
@@ -43,7 +52,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:content, :status, :user_id)
+    params.require(:task).permit(:content, :status)
   end
   
   def correct_user

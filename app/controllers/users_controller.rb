@@ -1,13 +1,5 @@
 class UsersController < ApplicationController
   
-  def index
-    @users = current_user.tasks
-  end
-  
-  def show
-    @user = current_user.tasks.find_by(id: params[:id])
-  end
-  
   def new
     @user = User.new
   end
